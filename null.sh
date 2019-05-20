@@ -464,7 +464,7 @@ systemctl restart mariadb.service
 yum install -y php >/dev/null 2>&1
 yum install -y php-mysql >/dev/null 2>&1
 yum install -y php-gd php-ldap php-odbc php-pear php-xml php-xmlrpc php-mbstring php-snmp php-soap curl curl-devel php-bcmath >/dev/null 2>&1
-echo && echo -e "开始配置后台信息..."
+echo && echo -e "开始配置后台信息...加载文件中..."
 rm -rf /Data && mkdir -p /Data/wwwroot/Lyun
 if [[ ${webType}="http" ]]; then
 cd /mnt && wget  -O $lyWEB ${web}$Host/$lyWEB
@@ -527,11 +527,13 @@ EOF
     vpn >/dev/null 2>&1
 	chmod 0777 -R /Data/wwwroot/Lyun/Online/*
 	cd /Data/wwwroot/Lyun
+	echo && echo -e "加载文件中..."
 	if [[ ${webType}="http" ]]; then
-	wget -q ${web}$Host/$phpmyadmin
+	wget  ${web}$Host/$phpmyadmin
 	else
-	wget -q -N --no-check-certificate ${webs}$Host/$phpmyadmin
+	wget  -N --no-check-certificate ${webs}$Host/$phpmyadmin
 	fi
+	echo && echo -e "努力配置中..."
 	tar zxf $phpmyadmin && rm -f $phpmyadmin 
 	mv phpMyAdmin-4.4.15.5-all-languages $sql
 	echo && echo "正在检测vpn状态..."
