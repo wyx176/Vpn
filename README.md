@@ -25,4 +25,4 @@
  <pre><code>wget -q -N --no-check-certificate https://raw.githubusercontent.com/wyx176/Vpn/linyun/install.sh && bash install.sh</code></pre>
 
 ## 写在最后 ##
-- 啥都没有
+- app注册默认邮箱注册方式,如需改成普通注册,请到管理员后台->高级设置->平台信息->账号注册方式切换为普通注册帐号
