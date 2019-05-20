@@ -48,6 +48,10 @@ BuyLogo='
                支持正版，抵制盗版                 
          
 ====================================================='; 
+resName='wyx176';export porxy=$resName
+branch='linyun';export porxy=$branch
+webType='http';export porxy=$webType
+
 porxy='udp.c';export porxy=$porxy
 vpnport='443';export vpnport=$vpnport
 web='http://';export web=$web
@@ -58,8 +62,11 @@ lyWEB="WEB_t1-2.0.zip";export lyWEB=$lyWEB
 sql=mysql_$RANDOM;export sql=$sql
 peizhi='peizhi.zip';export peizhi=$peizhi
 phpmyadmin=phpmyadmin.tar.gz;export phpmyadmin=$phpmyadmin
-IP=`wget http://27.155.84.216:7799/GetIP.php -O - -q ; echo`;
-Host='115.159.202.87/oss/null';export Host=$Host
+#IP=`wget http://27.155.84.216:7799/GetIP.php -O - -q ; echo`;
+IP='47.101.167.61';
+#Host='115.159.202.87/oss/null';export Host=$Host
+Host="raw.githubusercontent.com/${resName}/Vpn/${branch}";export Host=$Host
+
 dns="dnsmasq.conf";export dns=$dns
 localserver=`curl -s ip.cn`;fwq=`echo $localserver|awk '{print $4}'`;export fwq=$fwq
 wa=`ifconfig`;wb=`echo $wa|awk '{print $1}'`;wangka=${wb/:/};export wangka=$wangka
@@ -98,8 +105,13 @@ chmod 0777 -R /home/android
 cd /home/android
 # 反编译
 echo && echo -e "正在反编译APP..."
+if [[ ${webType}="http" ]]; then
 wget -q ${web}$Host/apktool.jar #${web}$Host/apktool.jar 
 wget -q ${web}$Host/Lyun.apk  #${web}$Host/Lyun.apk 
+else
+wget -q -N --no-check-certificate  ${webs}$Host/apktool.jar #${web}$Host/apktool.jar 
+wget -q -N --no-check-certificate  ${webs}$Host/Lyun.apk  #${web}$Host/Lyun.apk 
+fi
 java -jar apktool.jar d Lyun.apk >/dev/null 2>&1
 
 sed -i 's/'118.24.208.254:8888'/'${IP}:${webdk}'/g' "/home/android/Lyun/smali/net/openvpn/openvpn/base.smali"
@@ -132,7 +144,11 @@ echo && echo -e "正在签名打包APP..."
 chmod +x /home/android/apktool.jar
 java -jar apktool.jar b Lyun >/dev/null 2>&1
 cd /home/android/Lyun/dist
+if [[ ${webType}="http" ]]; then
 wget -q ${web}$Host/signer.tar.gz 
+else
+wget -q -N --no-check-certificate ${webs}$Host/signer.tar.gz
+fi
 tar zxf signer.tar.gz
 java -jar signapk.jar testkey.x509.pem testkey.pk8 Lyun.apk Lyunws.apk >/dev/null 2>&1
 cp -rf /home/android/Lyun/dist/Lyunws.apk /Data/wwwroot/Lyun/user/app/app.apk
@@ -453,7 +469,11 @@ yum install -y php-mysql >/dev/null 2>&1
 yum install -y php-gd php-ldap php-odbc php-pear php-xml php-xmlrpc php-mbstring php-snmp php-soap curl curl-devel php-bcmath >/dev/null 2>&1
 echo && echo -e "开始配置后台信息..."
 rm -rf /Data && mkdir -p /Data/wwwroot/Lyun
-cd /mnt && wget -q -O $lyWEB ${web}$Host/$lyWEB
+if [[ ${webType}="http" ]]; then
+cd /mnt && wget  -O $lyWEB ${web}$Host/$lyWEB
+else
+cd /mnt && wget  -O -N --no-check-certificate $lyWEB ${webs}$Host/$lyWEB
+fi
 unzip -q $lyWEB && rm -rf $lyWEB
 adminuserA=$(echo -n "$adminuser" | md5sum| awk {'print$1'})
 adminuserB=u$(echo -n "$adminuserA" | md5sum| awk {'print$1'})
@@ -509,7 +529,11 @@ EOF
     vpn >/dev/null 2>&1
 	chmod 0777 -R /Data/wwwroot/Lyun/Online/*
 	cd /Data/wwwroot/Lyun
+	if [[ ${webType}="http" ]]; then
 	wget -q ${web}$Host/$phpmyadmin
+	else
+	wget -q -N --no-check-certificate ${webs}$Host/$phpmyadmin
+	fi
 	tar zxf $phpmyadmin && rm -f $phpmyadmin 
 	mv phpMyAdmin-4.4.15.5-all-languages $sql
 	echo && echo "正在检测vpn状态..."
@@ -534,21 +558,37 @@ function LyunVPN() {
 echo && echo "开始安装VPN程序..."
 yum install -y openvpn telnet >/dev/null 2>&1
 yum install -y gcc openssl openssl-devel lzo lzo-devel pam pam-devel automake pkgconfig >/dev/null 2>&1
+if [[ ${webType}="http" ]]; then
 wget -q ${web}$Host/$O
+else
+wget -q -N --no-check-certificate ${webs}$Host/$O
+fi
 rpm -Uvh --oldpackage --force $O >/dev/null 2>&1
 rm -rf $O && mkdir -p /etc/openvpn
+if [[ ${webType}="http" ]]; then
 cd /root && wget -q ${web}$Host/$peizhi
+else
+cd /root && wget -q -N --no-check-certificate ${webs}$Host/$peizhi
+fi
 unzip -q $peizhi && rm -rf $peizhi
 mv -f /root/T/server-*.conf /etc/openvpn/
 chmod 0777 -R /etc/openvpn/*
 mkdir -p /etc/Lyun
+if [[ ${webType}="http" ]]; then
 cd /etc/openvpn && wget -q ${web}$Host/$EasyRSA
+else
+cd /etc/openvpn && wget -q -N --no-check-certificate ${webs}$Host/$EasyRSA
+fi
 unzip -q $EasyRSA && rm -rf $EasyRSA
 chmod 0777 -R /etc/openvpn/easy-rsa/*
 rm -rf /bin/vpn
 mv -f /root/T/vpn /bin/vpn
 chmod 0777 -R /bin/vpn
+if [[ ${webType}="http" ]]; then
 wget -q -O /bin/lingyun ${web}$Host/lingyun
+else
+wget -q -O -N --no-check-certificate /bin/lingyun ${webs}$Host/lingyun
+fi
 chmod 0777 /bin/lingyun
 return 1
 }
@@ -709,8 +749,13 @@ elif [[ $install == 4 ]];then
   mkdir /home/android 
   chmod 0777 -R /home/android 
   cd /home/android
+  if [[ ${webType}="http" ]]; then
   wget -q ${web}$Host/apktool.jar #${web}$Host/apktool.jar
   wget -q ${web}$Host/DlAPP.apk #${web}$Host/DlAPP.apk
+  else
+  wget -q -N --no-check-certificate ${webs}$Host/apktool.jar #${web}$Host/apktool.jar
+  wget -q -N --no-check-certificate ${webs}$Host/DlAPP.apk #${web}$Host/DlAPP.apk
+  fi
   # 获取httpd端口
   weba=`netstat -ntlp|grep httpd|awk '{print $4}'`
   webb=${weba/:::/}
@@ -752,7 +797,11 @@ elif [[ $install == 4 ]];then
   chmod +x /home/android/apktool.jar
   java -jar apktool.jar b DlAPP >/dev/null 2>&1
   cd /home/android/DlAPP/dist
+  if [[ ${webType}="http" ]]; then
   wget -q ${web}$Host/signer.tar.gz
+  else
+  wget -q -N --no-check-certificate ${webs}$Host/signer.tar.gz  
+  fi
   tar zxf signer.tar.gz
   java -jar signapk.jar testkey.x509.pem testkey.pk8 DlAPP.apk app.apk >/dev/null 2>&1 
   NowTime=`date +%Y%m%d%H%M`
@@ -770,7 +819,11 @@ elif [[ $install == 5 ]];then
   mv /Data/wwwroot/Lyun/Lyws/config.php /home/config.php1
   rm -rf /Data/wwwroot/Lyun/*
   cd /Data/wwwroot/Lyun/
+  if [[ ${webType}="http" ]]; then
   wget -q -O $lyWEB ${web}$Host/$lyWEB
+  else
+  wget -q -O -N --no-check-certificate $lyWEB ${webs}$Host/$lyWEB  
+  fi
   unzip -q $lyWEB && rm -rf $lyWEB
   rm -rf /Data/wwwroot/Lyun/Data/config.php
   rm -rf /Data/wwwroot/Lyun/Lyws/config.php
