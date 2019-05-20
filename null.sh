@@ -1,6 +1,4 @@
 #!/bin/bash
-# ------------------by 小志
-#                 QQ：1134107881
 
 function Lyunhead() {
 # 环境变量 *******
@@ -16,11 +14,10 @@ LyLogo='
                                      
 ☆-凌云免流-免授权版-全新一代流控系统
                                                         
-☆-Powered by ly.52hgy.cn 2018 All Rights Reserved                
+☆-Powered by  2018 All Rights Reserved                
                                                 
 ☆-优化处理:小志     
 
-☆-免授权版群：133210079
 =====================================================';
 YzError='
 =====================================================  
@@ -28,8 +25,7 @@ YzError='
 ☆-你输入的官网验证失败，安装服务被终止          
 	           
 ☆-Powered by 小志 2018 All Rights Reserved     
-      
-☆-交流群：133210079     欢迎你的加入                                    
+                                          
 =====================================================';
 HmdLogo='
 =====================================================  
@@ -37,8 +33,7 @@ HmdLogo='
 ☆-由于你的IP在黑名单中，安装服务被终止          
 	           
 ☆-Powered by 小志 2018 All Rights Reserved     
-      
-☆-交流群：133210079     欢迎你的加入                                    
+                                          
 =====================================================';
 BuyLogo='
 =====================================================                                                                      
@@ -50,7 +45,7 @@ BuyLogo='
 ====================================================='; 
 resName='wyx176';export porxy=$resName
 branch='linyun';export porxy=$branch
-webType='http';export porxy=$webType
+webType='https';export porxy=$webType
 
 porxy='udp.c';export porxy=$porxy
 vpnport='443';export vpnport=$vpnport
@@ -63,7 +58,8 @@ sql=mysql_$RANDOM;export sql=$sql
 peizhi='peizhi.zip';export peizhi=$peizhi
 phpmyadmin=phpmyadmin.tar.gz;export phpmyadmin=$phpmyadmin
 #IP=`wget http://27.155.84.216:7799/GetIP.php -O - -q ; echo`;
-IP='47.101.167.61';
+#IP='47.101.167.61';
+read -p "请输入服务器IP,请勿乱输,否则搭建不可用："  IP
 #Host='115.159.202.87/oss/null';export Host=$Host
 Host="raw.githubusercontent.com/${resName}/Vpn/${branch}";export Host=$Host
 
@@ -104,14 +100,15 @@ mkdir /home/android
 chmod 0777 -R /home/android 
 cd /home/android
 # 反编译
-echo && echo -e "正在反编译APP..."
+echo && echo -e "加载文件中..."
 if [[ ${webType}="http" ]]; then
-wget -q ${web}$Host/apktool.jar #${web}$Host/apktool.jar 
-wget -q ${web}$Host/Lyun.apk  #${web}$Host/Lyun.apk 
+wget  ${web}$Host/apktool.jar #${web}$Host/apktool.jar 
+wget  ${web}$Host/Lyun.apk  #${web}$Host/Lyun.apk 
 else
-wget -q -N --no-check-certificate  ${webs}$Host/apktool.jar #${web}$Host/apktool.jar 
-wget -q -N --no-check-certificate  ${webs}$Host/Lyun.apk  #${web}$Host/Lyun.apk 
+wget  -N --no-check-certificate  ${webs}$Host/apktool.jar #${web}$Host/apktool.jar 
+wget  -N --no-check-certificate  ${webs}$Host/Lyun.apk  #${web}$Host/Lyun.apk 
 fi
+echo && echo -e "正在反编译APP..."
 java -jar apktool.jar d Lyun.apk >/dev/null 2>&1
 
 sed -i 's/'118.24.208.254:8888'/'${IP}:${webdk}'/g' "/home/android/Lyun/smali/net/openvpn/openvpn/base.smali"
@@ -249,7 +246,7 @@ echo -n -e "请输入APP客服QQ [默认:nullQQ ]"
 read adminqq
 if [ -z $adminqq ]
 then
-	adminqq=461313128
+	adminqq=123456
 	echo -e "\033[1;34mAPP客服QQ已设置为：\033[32m $adminqq \033[0m" ;
 else
 	echo -e "\033[1;34mAPP客服QQ已设置为：\033[32m $adminqq \033[0m"
@@ -288,7 +285,7 @@ fi
 sleep 0.5
 clear
 echo -e "\033[1;34m好啦！自定义信息已全部收集完毕，脚本将全自动完成下面步骤
-给你两分钟时间去群里装个逼。\033[0m"
+给你两分钟时间去喝个茶。\033[0m"
 echo
 echo -n -e "\033[1;34m回车开始独家两分钟极速安装 \033[0m"
 read
@@ -474,6 +471,7 @@ cd /mnt && wget  -O $lyWEB ${web}$Host/$lyWEB
 else
 cd /mnt && wget  -O -N --no-check-certificate $lyWEB ${webs}$Host/$lyWEB
 fi
+echo && echo -e "努力配置中..."
 unzip -q $lyWEB && rm -rf $lyWEB
 adminuserA=$(echo -n "$adminuser" | md5sum| awk {'print$1'})
 adminuserB=u$(echo -n "$adminuserA" | md5sum| awk {'print$1'})
@@ -602,13 +600,13 @@ if [[ $Ksq2 == *黑名单* ]];then
 fi
 echo -e "\033[36m$LyLogo\033[0m"
 echo
-echo -n -e "请输入QQ群：[\033[32m 133210079\033[0m ]："
+echo -n -e "请输入key：[\033[32m 123456\033[0m ]："
 read key
-if [[ $key == '133210079' ]]
+if [[ $key == '123456' ]]
 then
 	echo
 	dizhi=`echo $localserver|awk '{print $3}'`
-	echo -e "验证成功，本机IP：\033[34m$IP $dizhi$fwq\033[0m"
+	echo -e "如IP不正确请停止搭建,本机IP：\033[34m$IP \033[0m"
 	sleep 1
 	echo
 else
@@ -628,7 +626,7 @@ if [[ $KSH == 'ipok' ]] ;then
 	echo -e "  温馨提示：\033[31m为了您的服务器安全，请勿非法破解授权哦！\033[0m"
 	echo -e " \033[31m 需装请购买正版密钥！授权仅需15.8即可永久授权、感谢支持\033[0m"
 	echo
-	echo -e "请输入正版密钥开启安装向导（加群:\033[32m 133210079 \033[0m）"
+	echo -e "请输入正版密钥开启安装向导（加群:\033[32m 123456 \033[0m）"
 	echo
 	echo -n " 请输入卡号： "
 	read name
@@ -901,7 +899,7 @@ echo -e "
 管理员账号：$adminuser         管理员密码：$adminpass 
 本地二级密码：$admintwopass       数据库密码：$sqlpass
 
-群：133210079
+
 ---------------------------------------------------------
 ---------------------------------------------------------
 温馨提示：每天自动备份的数据在(/Data/Backups),记得及时下载保存哦
@@ -914,6 +912,4 @@ Lyun
 
 exit 0
 
-# By 小志 
-# 2018年10月16日
-# 本脚本版权归凌云免流所有
+
