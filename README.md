@@ -16,7 +16,7 @@
 
 ![](https://raw.githubusercontent.com/wyx176/Vpn/fas/other/images/01.png) ![](https://raw.githubusercontent.com/wyx176/Vpn/fas/other/images/02.png)
 
-![](https://raw.githubusercontent.com/wyx176/Vpn/linyun/images/app1.png)![](https://raw.githubusercontent.com/wyx176/Vpn/linyun/images/app2.png)
+![](https://raw.githubusercontent.com/wyx176/Vpn/linyun/images/app1.png)![](https://raw.githubusercontent.com/wyx176/Vpn/fas/other/images/app.png)
 
 ## 缺点 ##
 - 没有
