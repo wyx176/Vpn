@@ -71,7 +71,7 @@ exit
 fi
 sed -i 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/selinux/config
 rm -rf /etc/sysctl.conf
-wget -q ${host}sysctl.conf -P /etc
+${wgetMothed} ${host}sysctl.conf -P /etc
 if [ ! -f /etc/sysctl.conf ]; then
 echo "警告！IP路由转发配置文件下载失败，请自行检查下载源是否可用！脚本停止！"
 exit
@@ -216,7 +216,7 @@ exit
 0
 fi
 cd /etc/openvpn && rm -rf /etc/openvpn/*
-wget -q ${host}openvpn.zip
+${wgetMothed} ${host}openvpn.zip
 if [ ! -f /etc/openvpn/openvpn.zip ]; then
 echo "警告！OpenVPN配置文件下载失败，请自行检查下载源是否可用！脚本停止！"
 exit
@@ -239,7 +239,7 @@ exit
 0
 fi
 rm -rf /etc/dnsmasq.conf
-wget -q ${host}dnsmasq.conf -P /etc && chmod 0777 /etc/dnsmasq.conf
+${wgetMothed} ${host}dnsmasq.conf -P /etc && chmod 0777 /etc/dnsmasq.conf
 if [ ! -f /etc/dnsmasq.conf ]; then
 echo "警告！dnsmasq配置文件下载失败，请自行检查下载源是否可用！脚本停止！"
 exit
@@ -248,7 +248,7 @@ fi
 systemctl enable dnsmasq.service >/dev/null 2>&1
 }
 function web() {
-rm -rf /var/www/* && cd /var/www && wget -q ${host}fas_web.zip
+rm -rf /var/www/* && cd /var/www && ${wgetMothed} ${host}fas_web.zip
 if [ ! -f /var/www/fas_web.zip ]; then
 echo "警告！FAS-WEB配置文件下载失败，请自行检查下载源是否可用！脚本停止！"
 exit
@@ -266,7 +266,7 @@ echo "$RANDOM$RANDOM" >>/var/www/auth_key.access
 }
 function sbin() {
 mkdir /etc/rate.d/ && chmod -R 0777 /etc/rate.d/
-cd /root && wget -q ${host}res.zip
+cd /root && ${wgetMothed} ${host}res.zip
 if [ ! -f /root/res.zip ]; then
 echo "警告！FAS-res配置文件下载失败，请自行检查下载源是否可用！脚本停止！"
 exit
@@ -274,7 +274,7 @@ exit
 fi
 unzip -o res.zip >/dev/null 2>&1 && chmod -R 0777 /root && rm -rf /root/res.zip
 mv /root/res/fas.service /lib/systemd/system/fas.service && chmod -R 0777 /lib/systemd/system/fas.service && systemctl enable fas.service >/dev/null 2>&1
-cd /bin && wget -q ${host}bin.zip
+cd /bin && ${wgetMothed} ${host}bin.zip
 if [ ! -f /bin/bin.zip ]; then
 echo "警告！FAS命令指示符配置文件下载失败，请自行检查下载源是否可用！脚本停止！"
 exit
@@ -383,12 +383,12 @@ function app1() {
 rm -rf /APP
 mkdir /APP >/dev/null 2>&1
 cd /APP
-wget -q ${host}fas.apk && wget -q ${host}apktool.jar && java -jar apktool.jar d fas.apk >/dev/null 2>&1 && rm -rf fas.apk
+${wgetMothed} ${host}fas.apk && ${wgetMothed} ${host}apktool.jar && java -jar apktool.jar d fas.apk >/dev/null 2>&1 && rm -rf fas.apk
 sed -i 's/demo.dingd.cn:80/'${fasapkipname}:${faspost}'/g' $(grep demo.dingd.cn:80 -rl /APP/fas/smali/net/openvpn/openvpn/)
 sed -i 's/叮咚流量卫士/'${fasapknames}'/g' "/APP/fas/res/values/strings.xml"
 sed -i 's/net.fas.vpn/'${fasapkname}'/g' "/APP/fas/AndroidManifest.xml"
 java -jar apktool.jar b fas >/dev/null 2>&1
-wget -q ${host}signer.zip && unzip -o signer.zip >/dev/null 2>&1
+${wgetMothed} ${host}signer.zip && unzip -o signer.zip >/dev/null 2>&1
 mv /APP/fas/dist/fas.apk /APP/fas.apk
 java -jar signapk.jar testkey.x509.pem testkey.pk8 /APP/fas.apk /APP/fas_sign.apk >/dev/null 2>&1
 rm -rf /root/fasapp.apk
@@ -409,12 +409,12 @@ function app() {
 rm -rf /APP
 mkdir /APP >/dev/null 2>&1
 cd /APP
-wget -q ${host}fas.apk && wget -q ${host}apktool.jar && java -jar apktool.jar d fas.apk >/dev/null 2>&1 && rm -rf fas.apk
+${wgetMothed} ${host}fas.apk && ${wgetMothed} ${host}apktool.jar && java -jar apktool.jar d fas.apk >/dev/null 2>&1 && rm -rf fas.apk
 sed -i 's/demo.dingd.cn:80/'${fasapkipname}:${faspost}'/g' $(grep demo.dingd.cn:80 -rl /APP/fas/smali/net/openvpn/openvpn/)
 sed -i 's/叮咚流量卫士/'${fasapknames}'/g' "/APP/fas/res/values/strings.xml"
 sed -i 's/net.fas.vpn/'${fasapkname}'/g' "/APP/fas/AndroidManifest.xml"
 java -jar apktool.jar b fas >/dev/null 2>&1
-wget -q ${host}signer.zip && unzip -o signer.zip >/dev/null 2>&1
+${wgetMothed} ${host}signer.zip && unzip -o signer.zip >/dev/null 2>&1
 mv /APP/fas/dist/fas.apk /APP/fas.apk
 java -jar signapk.jar testkey.x509.pem testkey.pk8 /APP/fas.apk /APP/fas_sign.apk >/dev/null 2>&1
 rm -rf /var/www/html/fasapp.apk
@@ -1162,13 +1162,15 @@ function main() {
 rm -rf $0 >/dev/null 2>&1
 clear
 echo
-echo "欢迎使用FAS流控 for Openvpn"
+echo "欢迎使用FAS流控11111 for Openvpn"
 sleep 2
 echo
 echo "正在检查安装环境"
 safe
 yum -y install curl wget openssl >/dev/null 2>&1
-host=http://dir.smwlm.com/fasvpn/
+wgetMothed='wget -q -N --no-check-certificate'
+echo 
+host=https://raw.githubusercontent.com/wyx176/Vpn/fas/
 logo
 }
 main
